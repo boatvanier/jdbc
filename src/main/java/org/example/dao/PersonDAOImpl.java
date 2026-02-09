@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonDAO {
+public class PersonDAOImpl {
     private static final String GET_ALL_SQL = "SELECT id, name, age, email FROM person";
     private static final String INSERT_PERSON_SQL =
             "insert into person(name, age, email) values (?, ? ,?)";
