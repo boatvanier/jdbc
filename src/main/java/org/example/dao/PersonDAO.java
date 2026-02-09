@@ -1,4 +1,7 @@
-package org.example;
+package org.example.dao;
+
+import org.example.model.Person;
+import org.example.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,6 +11,33 @@ public class PersonDAO {
     private static final String GET_ALL_SQL = "SELECT id, name, age, email FROM person";
     private static final String INSERT_PERSON_SQL =
             "insert into person(name, age, email) values (?, ? ,?)";
+    private static final String UPDATE_PERSON_SQL =
+            "update person set name = ?, age=?, email=? where id = ?";
+    private static final String DELETE_PERSON_SQL =
+            "delete from person where id =?";
+
+    public void deletePerson(int id) throws SQLException {
+        try (Connection connection = DBUtil.getConnection();
+        PreparedStatement ps = connection.prepareStatement(DELETE_PERSON_SQL)){
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public void updatePerson(Person person) throws SQLException {
+        if (person.getId() == null ) {
+            throw new IllegalArgumentException("Person id required");
+        }
+
+        try (Connection connection = DBUtil.getConnection();
+        PreparedStatement ps = connection.prepareStatement(UPDATE_PERSON_SQL)) {
+            ps.setString(1, person.getName());
+            ps.setInt(2, person.getAge());
+            ps.setString(3, person.getEmail());
+            ps.setInt(4, person.getId());
+            ps.executeUpdate();
+        }
+    }
 
     public Person addPerson(Person person) throws SQLException {
         try(Connection connection = DBUtil.getConnection();

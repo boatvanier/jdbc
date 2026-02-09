@@ -1,8 +1,10 @@
 package org.example;
 
+import org.example.dao.JobDAO;
+import org.example.model.Job;
+import org.example.model.Person;
+
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -35,5 +37,5 @@ public class Main {
         j.setTitle("dev");
         j.setSalary(8000.00);
         jobDAO.addPersonAndJob(p, j);
-  }
+    }
 }

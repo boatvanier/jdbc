@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class Person {
         return new Person(id, name, age, email);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

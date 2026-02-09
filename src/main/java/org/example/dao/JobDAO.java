@@ -1,4 +1,8 @@
-package org.example;
+package org.example.dao;
+
+import org.example.model.Job;
+import org.example.model.Person;
+import org.example.util.DBUtil;
 
 import java.sql.*;
 
