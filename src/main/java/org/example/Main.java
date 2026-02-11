@@ -4,6 +4,11 @@ import org.example.dao.JobDAO;
 import org.example.model.Job;
 import org.example.model.Person;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
 public class Main {
@@ -31,11 +36,12 @@ public class Main {
 //
 //        System.out.println(personList);
 
-        JobDAO jobDAO = new JobDAO();
-        Person p = Person.create("test", 55, "test@email.com").get();
-        Job j = new Job();
-        j.setTitle("dev");
-        j.setSalary(8000.00);
-        jobDAO.addPersonAndJob(p, j);
+//        JobDAO jobDAO = new JobDAO();
+//        Person p = Person.create("test", 55, "test@email.com").get();
+//        Job j = new Job();
+//        j.setTitle("dev");
+//        j.setSalary(8000.00);
+//        jobDAO.addPersonAndJob(p, j);
+
     }
 }
