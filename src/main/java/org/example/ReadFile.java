@@ -7,14 +7,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class ReadFile {
-    public void readFromResource() {
+    public void readFromResource() throws IOException {
         try(InputStream inputStream =  getClass().getResourceAsStream("data.txt");
             BufferedReader reader= new BufferedReader(
                     new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             reader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-
     }
 }

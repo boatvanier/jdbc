@@ -43,6 +43,9 @@ public class Job {
     }
 
     public void setSalary(Double salary) {
+        if (salary < 0) {
+            throw new IllegalArgumentException();
+        }
         this.salary = salary;
     }
 }

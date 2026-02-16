@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.dao.JobDAO;
+import org.example.exception.GeneratedKeyNotFoundException;
+import org.example.exception.SQLDataAccessException;
 import org.example.model.Job;
 import org.example.model.Person;
 
@@ -36,12 +38,23 @@ public class Main {
 //
 //        System.out.println(personList);
 
-//        JobDAO jobDAO = new JobDAO();
-//        Person p = Person.create("test", 55, "test@email.com").get();
-//        Job j = new Job();
-//        j.setTitle("dev");
-//        j.setSalary(8000.00);
-//        jobDAO.addPersonAndJob(p, j);
+        try {
+            ReadFile reader = new ReadFile();
+            reader.readFromResource();
+
+            JobDAO jobDAO = new JobDAO();
+            Person p = Person.create("test", 55, "test@email.com").get();
+            Job j = new Job();
+            j.setTitle("dev");
+            j.setSalary(8000.00);
+            jobDAO.addPersonAndJob(p, j);
+        }catch (SQLException | SQLDataAccessException | IOException | GeneratedKeyNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
+
 
     }
 }

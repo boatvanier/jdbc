@@ -1,5 +1,7 @@
 package org.example.dao;
 
+import org.example.exception.GeneratedKeyNotFoundException;
+import org.example.exception.SQLDataAccessException;
 import org.example.model.Job;
 import org.example.model.Person;
 import org.example.util.DBUtil;
@@ -12,7 +14,7 @@ public class JobDAO {
     private static final String INSERT_JOB_SQL =
             "insert into job(person_id, title, salary) values (?, ? ,?)";
 
-    public Job addJob(Job job) throws SQLException {
+    public Job addJob(Job job) {
         try(Connection connection = DBUtil.getConnection();
             PreparedStatement ps =
                     connection.prepareStatement(INSERT_JOB_SQL, Statement.RETURN_GENERATED_KEYS)
@@ -28,13 +30,15 @@ public class JobDAO {
                     job.setId(rs.getInt(1));
                     return job;
                 } else {
-                    throw new SQLException("Failed to get the job ID");
+                    throw new GeneratedKeyNotFoundException("job");
                 }
             }
+        }catch (SQLException e) {
+            throw new SQLDataAccessException(e.getMessage());
         }
     }
 
-    public void addPersonAndJob(Person person, Job job) {
+    public void addPersonAndJob(Person person, Job job) throws SQLException, GeneratedKeyNotFoundException {
         try(Connection connection = DBUtil.getConnection();
         PreparedStatement psPerson = connection.prepareStatement(INSERT_PERSON_SQL, Statement.RETURN_GENERATED_KEYS);
         PreparedStatement psJob = connection.prepareStatement(INSERT_JOB_SQL)){
@@ -53,7 +57,7 @@ public class JobDAO {
                 if(rs.next()) {
                     personId = rs.getInt(1);
                 } else {
-                    throw new SQLException("Failed to get the person ID");
+                    throw new GeneratedKeyNotFoundException("person");
                 }
             }
 
@@ -64,8 +68,6 @@ public class JobDAO {
             psJob.executeUpdate();
 
             connection.commit();
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }
