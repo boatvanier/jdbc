@@ -1,20 +1,16 @@
 package org.example;
 
-import org.example.dao.JobDAO;
-import org.example.exception.GeneratedKeyNotFoundException;
-import org.example.exception.SQLDataAccessException;
-import org.example.model.Job;
-import org.example.model.Person;
+import org.example.lab.UserDao;
+import org.example.lab.exception.FileMissingException;
+import org.example.lab.FileProcess;
+import org.example.lab.exception.UserNotFoundException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.io.*;
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         //get person
 //        PersonDAO personDAO = new PersonDAO();
 //        List<Person> list = personDAO.getPersonByNameAndAge("a", 28);
@@ -38,22 +34,53 @@ public class Main {
 //
 //        System.out.println(personList);
 
-        try {
-            ReadFile reader = new ReadFile();
-            reader.readFromResource();
 
-            JobDAO jobDAO = new JobDAO();
-            Person p = Person.create("test", 55, "test@email.com").get();
-            Job j = new Job();
-            j.setTitle("dev");
-            j.setSalary(8000.00);
-            jobDAO.addPersonAndJob(p, j);
-        }catch (SQLException | SQLDataAccessException | IOException | GeneratedKeyNotFoundException e) {
+        //lab exception part 1
+        int[] arr = {10, 20, 30};
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter dividend: ");
+            int a = sc.nextInt();
+            System.out.print("Enter divisor: ");
+            int b = sc.nextInt();
+            System.out.println("Result: " + (a / b));
+
+            System.out.print("Enter array index to access: ");
+            int idx = sc.nextInt();
+            System.out.println("Array value: " + arr[idx]);
+
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invalid array index!");
+        } finally {
+            System.out.println("End of operation");
+        }
+
+        //lab exception part 2
+        FileProcess fileProcess = new FileProcess();
+        try {
+            fileProcess.readFile("data.txt");
+        } catch (FileMissingException | IOException e) {
             System.out.println(e.getMessage());
         }
 
-
-
+        //lab exception part 3
+        UserDao userDao = new UserDao();
+        int id = 5;
+        try {
+            String name = userDao.getUserNameById(id);
+            if (name != null) {
+                System.out.println("User name: " + name);
+            } else {
+                throw new UserNotFoundException("User ID "+ id +" does not exist.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
 
     }
