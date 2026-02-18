@@ -7,6 +7,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 
 public class CalculatorTest {
     private Calculator calculator;
@@ -50,5 +52,17 @@ public class CalculatorTest {
     })
     void testIsEven_WithCsvSource(int number, boolean expected) {
         assertEquals(expected, calculator.isEven(number));
+    }
+
+    @Test
+    void testAddAndDouble() {
+        assertEquals(10, calculator.addAndDouble(2,3));
+    }
+
+    @Test
+    void testAddAndDouble_MockedAdd(){
+        Calculator calculatorMocked = spy(new Calculator());
+        doReturn(5).when(calculatorMocked).add(2,3);
+        assertEquals(10, calculatorMocked.addAndDouble(2,3));
     }
 }
