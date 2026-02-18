@@ -7,4 +7,8 @@ public class Calculator {
     public int subtract(int a, int b) {
         return a-b;
     }
+
+    public boolean isEven(int a) {
+        return a % 2 == 0;
+    }
 }
